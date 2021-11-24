@@ -107,7 +107,7 @@ class Grader:
             return self.process_item(content)
 
     def grade(self, grader_path, grader_config, student_response):
-        raise NotImplementedError("no grader defined")
+        return {'correct': True, "msg":"I didn't really grade this, everything is correct.", "score": 1, "tests": [], 'errors': []}
 
     def process_item(self, content, queue=None):
         try:
@@ -130,7 +130,7 @@ class Grader:
                 raise
 
             self.log.debug(f"Processing submission, grader payload: {payload}")
-            relative_grader_path = grader_config['grader']
+            relative_grader_path = grader_config.get('grader', '')
             grader_path = (self.grader_root / relative_grader_path).abspath()
             start = time.time()
             results = self.grade(grader_path, grader_config, student_response)
